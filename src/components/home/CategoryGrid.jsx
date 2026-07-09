@@ -1,14 +1,18 @@
 import React from 'react';
-import { Home, Users, HeartPulse, Briefcase, ShoppingBag, Award } from 'lucide-react';
+import { Home, Users, HeartPulse, Briefcase, ShoppingBag, Award, FileText, Calendar, BookOpen, Stethoscope, Store, HandHeart } from 'lucide-react';
 import Card from '../ui/Card';
 
 const categories = [
-  { icon: Home, label: 'Accommodation', description: 'SIL, SDA, MTA, STA properties', color: 'text-blue-500', bg: 'bg-blue-50' },
-  { icon: Users, label: 'Support Workers', description: 'Find reliable support staff', color: 'text-green-500', bg: 'bg-green-50' },
-  { icon: HeartPulse, label: 'Therapy Services', description: 'OT, Physio, Speech Therapy', color: 'text-rose-500', bg: 'bg-rose-50' },
-  { icon: Briefcase, label: 'Jobs', description: 'NDIS employment opportunities', color: 'text-purple-500', bg: 'bg-purple-50' },
-  { icon: ShoppingBag, label: 'Marketplace', description: 'Vehicles, Consumables & more', color: 'text-amber-500', bg: 'bg-amber-50' },
-  { icon: Award, label: 'Service Experts', description: 'Auditors, Consultants, Lawyers', color: 'text-indigo-500', bg: 'bg-indigo-50' },
+  { icon: FileText, label: 'Post a Service Request', description: 'Quickly find what you need by posting a request.', color: 'text-indigo-500', bg: 'bg-indigo-50' },
+  { icon: Users, label: 'Service Providers', description: 'Browse Registered & Unregistered NDIS Providers.', color: 'text-blue-500', bg: 'bg-blue-50' },
+  { icon: Home, label: 'Accommodation', description: 'SIL, SDA, MTA, and STA rental properties.', color: 'text-cyan-500', bg: 'bg-cyan-50' },
+  { icon: HandHeart, label: 'Find Supports', description: 'Support Workers, Coordinators, and Plan Managers.', color: 'text-green-500', bg: 'bg-green-50' },
+  { icon: Stethoscope, label: 'Therapy Services', description: 'Occupational Therapy, Physio, and Speech Therapy.', color: 'text-rose-500', bg: 'bg-rose-50' },
+  { icon: Briefcase, label: 'Jobs & Employment', description: 'Explore NDIS specific job opportunities.', color: 'text-purple-500', bg: 'bg-purple-50' },
+  { icon: Store, label: 'Market Place', description: 'Vehicles, Consumables, and NDIS Businesses.', color: 'text-amber-500', bg: 'bg-amber-50' },
+  { icon: Award, label: 'NDIS Service Experts', description: 'Auditors, Consultants, Lawyers, and Builders.', color: 'text-orange-500', bg: 'bg-orange-50' },
+  { icon: Calendar, label: 'Events & Workshops', description: 'Find local disability and NDIS events.', color: 'text-pink-500', bg: 'bg-pink-50' },
+  { icon: BookOpen, label: 'News & Blogs', description: 'Stay updated with the latest NDIS news.', color: 'text-teal-500', bg: 'bg-teal-50' },
 ];
 
 const CategoryGrid = () => {
@@ -21,19 +25,17 @@ const CategoryGrid = () => {
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {categories.map((cat, index) => (
-          <Card key={index} className="p-6 cursor-pointer group">
-            <div className="flex items-start gap-4">
-              <div className={`p-4 rounded-2xl ${cat.bg} ${cat.color} transition-transform duration-300 group-hover:scale-110`}>
-                <cat.icon size={32} />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
-                  {cat.label}
-                </h3>
-                <p className="text-gray-500">{cat.description}</p>
-              </div>
+          <Card key={index} className="p-6 cursor-pointer group flex flex-col items-start h-full">
+            <div className={`p-4 rounded-2xl ${cat.bg} ${cat.color} transition-transform duration-300 group-hover:scale-110 mb-5`}>
+              <cat.icon size={32} />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                {cat.label}
+              </h3>
+              <p className="text-sm text-gray-500 leading-relaxed">{cat.description}</p>
             </div>
           </Card>
         ))}
