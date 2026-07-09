@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, MapPin, ChevronDown, ListFilter } from 'lucide-react';
-import Button from './Button';
 
-// Custom Select Component for the Search Bar
-const CustomSelect = ({ label, icon: Icon, options, placeholder }) => {
+const CustomSelect = ({ label, icon: Icon, iconBg, iconColor, options, placeholder, isDropdown = true }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState('');
   const dropdownRef = useRef(null);
@@ -19,43 +17,60 @@ const CustomSelect = ({ label, icon: Icon, options, placeholder }) => {
   }, []);
 
   return (
-    <div className="flex-1 flex items-center gap-3 px-4 w-full border-b md:border-b-0 md:border-r border-gray-100 pb-3 md:pb-0 relative" ref={dropdownRef}>
-      <div className="p-2 bg-green-50 rounded-full text-green-600 shrink-0">
-        <Icon size={20} />
+    <div className="flex-1 flex items-center gap-3 px-4 md:px-6 relative" ref={dropdownRef}>
+      <div className={`p-2.5 rounded-full ${iconBg} ${iconColor} shrink-0`}>
+        <Icon size={20} strokeWidth={2} />
       </div>
-      <div 
-        className="flex flex-col w-full text-left cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <label className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5 cursor-pointer">{label}</label>
-        <div className="flex items-center justify-between">
-          <span className={`font-medium ${selected ? 'text-gray-900' : 'text-gray-400'}`}>
-            {selected || placeholder}
-          </span>
-          <ChevronDown size={16} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      
+      {isDropdown ? (
+        <div 
+          className="flex flex-col w-full text-left cursor-pointer"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-0.5 cursor-pointer">
+            {label}
+          </label>
+          <div className="flex items-center justify-between">
+            <span className={`text-[14px] md:text-[15px] font-medium ${selected ? 'text-gray-800' : 'text-slate-500'}`}>
+              {selected || placeholder}
+            </span>
+            <ChevronDown size={14} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col w-full text-left">
+          <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">
+            {label}
+          </label>
+          <div className="flex items-center">
+            <input 
+              type="text" 
+              placeholder={placeholder} 
+              className="w-full bg-transparent focus:outline-none text-[14px] md:text-[15px] font-medium text-gray-800 placeholder-slate-500"
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Dropdown Options */}
-      {isOpen && (
-        <div className="absolute top-[calc(100%+15px)] left-0 min-w-[280px] w-full bg-white rounded-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15)] border border-gray-100 p-2 z-60 animate-in fade-in slide-in-from-top-2 max-h-64 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-green-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-green-300">
+      {isOpen && isDropdown && (
+        <div className="absolute top-[calc(100%+16px)] left-0 min-w-[280px] w-full bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-100 py-2 z-50 max-h-64 overflow-y-auto">
           {options.map((opt, idx) => (
             <div 
               key={idx}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer text-sm transition-all ${
+              className={`px-5 py-2.5 cursor-pointer text-sm transition-colors ${
                 selected === opt 
-                  ? 'bg-green-50 text-green-700 font-semibold' 
-                  : 'text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-green-50 text-[#00c853] font-bold' 
+                  : 'text-gray-700 font-medium hover:bg-gray-50'
               }`}
               onClick={() => {
                 setSelected(opt);
                 setIsOpen(false);
               }}
             >
-              <span className="truncate">{opt}</span>
-              {selected === opt && (
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)] shrink-0"></div>
-              )}
+              {opt}
             </div>
           ))}
         </div>
@@ -70,64 +85,58 @@ const SearchBar = ({ onSearch }) => {
     "Unregistered Providers",
     "Support Workers",
     "Support Coordinators",
-    "Plan Managers",
-    "Psychosocial Recovery Coaches",
-    "Advocacy & Support Organizations",
-    "NDIS Service Experts"
+    "Plan Managers"
   ];
 
   const whatYouWantOptions = [
     "Accommodation / Housing",
-    "Accessible Rental Property",
-    "Specialist Disability Accommodation (SDA)",
-    "Short Term Accommodation (STA/Respite)",
-    "Medium Term Accommodation (MTA)",
-    "Supported Independent Living (SIL)",
-    "Jobs & Employment",
-    "Therapy Services (OT, Physio, Speech)",
-    "Market Place / Vehicles",
+    "Therapy Services",
     "Daily Living Support",
     "Community Participation"
   ];
 
   return (
-    <div className="bg-white p-3 rounded-3xl md:rounded-full shadow-xl flex flex-col md:flex-row items-center gap-2 max-w-5xl mx-auto border border-gray-100">
+    <div className="bg-white p-2 md:p-3 rounded-2xl md:rounded-full flex flex-col md:flex-row items-stretch md:items-center w-full max-w-5xl mx-auto shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-50 gap-y-4 md:gap-y-0">
       
-      {/* Field 1: All Service Provider */}
-      <CustomSelect 
-        label="All Service Provider" 
-        icon={Search} 
-        options={providerOptions} 
-        placeholder="Select Provider Type"
-      />
+      <div className="flex flex-col md:flex-row flex-1 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+        
+        {/* Field 1: All Service Provider */}
+        <CustomSelect 
+          label="All Service Provider"
+          icon={Search} 
+          iconBg="bg-green-50/80"
+          iconColor="text-green-600"
+          options={providerOptions} 
+          placeholder="Select Provider Type"
+        />
 
-      {/* Field 2: What you want */}
-      <CustomSelect 
-        label="What you want" 
-        icon={ListFilter} 
-        options={whatYouWantOptions} 
-        placeholder="Select Category"
-      />
-      
-      {/* Field 3: Location */}
-      <div className="flex-1 flex items-center gap-3 px-4 w-full pb-3 md:pb-0 pt-2 md:pt-0">
-        <div className="p-2 bg-blue-50 rounded-full text-blue-600 shrink-0">
-          <MapPin size={20} />
-        </div>
-        <div className="flex flex-col w-full text-left">
-          <label className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">Location</label>
-          <input 
-            type="text" 
-            placeholder="Suburb or Postcode" 
-            className="w-full bg-transparent focus:outline-none text-gray-900 font-medium placeholder-gray-400"
-          />
-        </div>
+        {/* Field 2: What you want */}
+        <CustomSelect 
+          label="What you want"
+          icon={ListFilter} 
+          iconBg="bg-green-50/80"
+          iconColor="text-green-600"
+          options={whatYouWantOptions} 
+          placeholder="Select Category"
+        />
+
+        {/* Field 3: Location */}
+        <CustomSelect 
+          label="Location"
+          icon={MapPin} 
+          iconBg="bg-blue-50/80"
+          iconColor="text-blue-500"
+          options={[]} 
+          placeholder="Suburb or Postcode"
+          isDropdown={false}
+        />
+        
       </div>
       
       {/* Search Button */}
-      <Button variant="primary" className="w-full md:w-auto rounded-xl md:rounded-full px-10 py-4 bg-green-500 hover:bg-green-600 text-white font-bold shadow-md hover:shadow-lg transition-all text-lg md:ml-2">
+      <button className="bg-[#00d05c] hover:bg-[#00b550] transition-colors text-white text-[15px] font-bold px-10 py-3.5 rounded-xl md:rounded-full mx-2 md:mx-0 md:mr-1 mb-1 md:mb-0 shadow-sm flex items-center justify-center">
         Search
-      </Button>
+      </button>
     </div>
   );
 };

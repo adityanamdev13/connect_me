@@ -127,20 +127,7 @@ const Header = () => {
 
   return (
     <header ref={headerRef} className="w-full bg-white/95 backdrop-blur-sm sticky top-0 font-sans shadow-sm z-50">
-      {/* Top Utility Bar (Very subtle, for accessibility tools) */}
-      <div className="w-full bg-gray-50 border-b border-gray-100 hidden md:block">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-1.5 flex justify-end items-center gap-4 text-xs font-medium text-gray-500">
-          <div className="flex items-center gap-2">
-            <span className="opacity-70">Font Size:</span>
-            <button className="hover:text-primary transition-colors hover:scale-110">A+</button>
-            <button className="hover:text-primary transition-colors hover:scale-110">A-</button>
-          </div>
-          <div className="w-px h-3 bg-gray-300"></div>
-          <Link to="/get-listed" className="hover:text-primary transition-colors">
-            Get Listed
-          </Link>
-        </div>
-      </div>
+
 
       {/* Main Brand & Auth Bar */}
       <div className="w-full px-4 md:px-8 py-4">
