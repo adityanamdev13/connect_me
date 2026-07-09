@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Card from '../ui/Card';
 
@@ -52,35 +52,74 @@ const services = [
 
 const PopularServices = () => {
   const scrollContainerRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const scrollLeft = () => {
+  // Auto-scroll logic
+  useEffect(() => {
+    // Pause auto-scroll when user is interacting (hovering or touching)
+    if (isHovered) return;
+
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth, children } = scrollContainerRef.current;
+        
+        // Dynamically calculate the width of one card + the flex gap (24px for gap-6)
+        const firstItem = children[0];
+        const itemWidth = firstItem ? firstItem.offsetWidth + 24 : 340;
+        
+        // If we've reached the end of the scroll container (Math.ceil prevents rounding bugs)
+        if (Math.ceil(scrollLeft + clientWidth) >= scrollWidth - 10) {
+          // Scroll back to the beginning smoothly
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Scroll right by exactly one card width
+          scrollContainerRef.current.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
+      }
+    }, 3000); // Swipe every 3 seconds
+
+    // Cleanup interval on unmount or when hover state changes
+    return () => clearInterval(interval);
+  }, [isHovered]);
+
+  const scrollLeftNav = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -340, behavior: 'smooth' });
+      const firstItem = scrollContainerRef.current.children[0];
+      const itemWidth = firstItem ? firstItem.offsetWidth + 24 : 340;
+      scrollContainerRef.current.scrollBy({ left: -itemWidth, behavior: 'smooth' });
     }
   };
 
-  const scrollRight = () => {
+  const scrollRightNav = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+      const firstItem = scrollContainerRef.current.children[0];
+      const itemWidth = firstItem ? firstItem.offsetWidth + 24 : 340;
+      scrollContainerRef.current.scrollBy({ left: itemWidth, behavior: 'smooth' });
     }
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto overflow-hidden">
+    <section 
+      className="py-20 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
+    >
       <div className="flex justify-between items-end mb-8">
         <h2 className="text-3xl font-bold text-gray-900">Popular Services near you</h2>
         
         {/* Navigation Buttons */}
         <div className="hidden sm:flex items-center gap-3">
           <button 
-            onClick={scrollLeft}
+            onClick={scrollLeftNav}
             className="p-2.5 rounded-full border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-gray-600 transition-all shadow-sm cursor-pointer"
             aria-label="Scroll left"
           >
             <ChevronLeft size={20} />
           </button>
           <button 
-            onClick={scrollRight}
+            onClick={scrollRightNav}
             className="p-2.5 rounded-full border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-gray-600 transition-all shadow-sm cursor-pointer"
             aria-label="Scroll right"
           >

@@ -61,8 +61,8 @@ const WhyConnectMe = () => {
           </p>
         </div>
 
-        {/* Features Grid - Designed for 5 items */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        {/* Features Grid - Fully Responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {features.map((feature) => (
             <div 
               key={feature.id} 

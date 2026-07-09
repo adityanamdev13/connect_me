@@ -97,16 +97,16 @@ const Footer = () => {
             {/* Flags Grid (Using proper high-res SVGs) */}
             <div className="grid grid-cols-2 gap-2 max-w-[140px]">
               <div className="h-10 rounded overflow-hidden shadow-inner border border-gray-700/50 relative bg-black">
-                <img src="https://upload.wikimedia.org/wikipedia/en/b/b9/Flag_of_Australia.svg" alt="Australian Flag" className="w-full h-full object-cover" />
+                <img src="/images/flags/australia.svg" alt="Australian Flag" className="w-full h-full object-cover" />
               </div>
               <div className="h-10 rounded overflow-hidden shadow-inner border border-gray-700/50 relative bg-black">
-                <img src="https://upload.wikimedia.org/wikipedia/en/3/3f/Australian_Aboriginal_Flag.svg" alt="Aboriginal Flag" className="w-full h-full object-cover" />
+                <img src="/images/flags/aboriginal.svg" alt="Aboriginal Flag" className="w-full h-full object-cover" />
+              </div>
+              <div className="h-10 rounded overflow-hidden shadow-inner border border-gray-700/50 relative bg-[#00008b]">
+                 <img src="/images/flags/torres_strait.svg" alt="Torres Strait Islander Flag" className="w-full h-full object-cover" />
               </div>
               <div className="h-10 rounded overflow-hidden shadow-inner border border-gray-700/50 relative bg-black">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Flag_of_the_Torres_Strait_Islanders.svg" alt="Torres Strait Islander Flag" className="w-full h-full object-cover" />
-              </div>
-              <div className="h-10 rounded overflow-hidden shadow-inner border border-gray-700/50 relative bg-black">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Gay_Pride_Flag.svg" alt="Pride Flag" className="w-full h-full object-cover" />
+                <img src="/images/flags/pride.svg" alt="Pride Flag" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
